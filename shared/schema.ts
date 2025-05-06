@@ -1,9 +1,9 @@
-import { pgTable, text, serial, integer, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, timestamp, pgEnum, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
+import { relations } from "drizzle-orm";
 
-// Since we're using in-memory storage for this app and not a DB,
-// we can define types only for our API responses.
+// Define database tables and schemas for users and search history
 
 // Schema for daily forecast item
 export const forecastItemSchema = z.object({
@@ -74,3 +74,44 @@ export type ForecastItem = z.infer<typeof forecastItemSchema>;
 export type HourlyForecastItem = z.infer<typeof hourlyForecastItemSchema>;
 export type TemperatureHistoryItem = z.infer<typeof temperatureHistoryItemSchema>;
 export type WeatherStats = z.infer<typeof weatherStatsSchema>;
+
+// Database schema for users table
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  username: varchar("username", { length: 100 }).notNull().unique(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Database schema for search history table
+export const searchHistory = pgTable("search_history", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id).notNull(),
+  city: varchar("city", { length: 100 }).notNull(),
+  country: varchar("country", { length: 100 }).notNull(),
+  temperature: integer("temperature").notNull(),
+  condition: varchar("condition", { length: 50 }).notNull(),
+  timestamp: timestamp("timestamp").defaultNow().notNull(),
+  favorite: boolean("favorite").default(false).notNull(),
+});
+
+// Relations between users and search history
+export const usersRelations = relations(users, ({ many }) => ({
+  searches: many(searchHistory),
+}));
+
+export const searchHistoryRelations = relations(searchHistory, ({ one }) => ({
+  user: one(users, {
+    fields: [searchHistory.userId],
+    references: [users.id],
+  }),
+}));
+
+// Create insert schemas using drizzle-zod
+export const insertUserSchema = createInsertSchema(users).omit({ id: true });
+export const insertSearchHistorySchema = createInsertSchema(searchHistory).omit({ id: true });
+
+// Create types from the schemas
+export type User = typeof users.$inferSelect;
+export type InsertUser = typeof users.$inferInsert;
+export type SearchHistory = typeof searchHistory.$inferSelect;
+export type InsertSearchHistory = typeof searchHistory.$inferInsert;
