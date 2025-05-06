@@ -9,6 +9,7 @@ import WeatherDisplay from "@/components/WeatherDisplay";
 import LoadingIndicator from "@/components/LoadingIndicator";
 import ErrorMessage from "@/components/ErrorMessage";
 import WeatherAPIGuide from "@/components/WeatherAPIGuide";
+import SearchHistory from "@/components/SearchHistory";
 
 export default function Home() {
   const [city, setCity] = useState("");
@@ -59,6 +60,9 @@ export default function Home() {
       {weather && !error && <WeatherDisplay weather={weather} />}
       
       {!weather && !isLoading && <WeatherAPIGuide />}
+      
+      {/* Search History */}
+      <SearchHistory />
       
       <footer className="mt-12 text-center text-sm text-gray-500 dark:text-gray-400">
         <p>© {new Date().getFullYear()} WeatherNow App. Powered by OpenWeatherMap API.</p>

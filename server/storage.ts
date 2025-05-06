@@ -1,6 +1,6 @@
 import { users, searchHistory, type User, type InsertUser, type SearchHistory, type InsertSearchHistory } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, and } from "drizzle-orm";
 
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
@@ -52,12 +52,7 @@ export class DatabaseStorage implements IStorage {
     return await db
       .select()
       .from(searchHistory)
-      .where(
-        eq(searchHistory.userId, userId)
-      )
-      .where(
-        eq(searchHistory.favorite, true)
-      )
+      .where(and(eq(searchHistory.userId, userId), eq(searchHistory.favorite, true)))
       .orderBy(desc(searchHistory.timestamp));
   }
 
