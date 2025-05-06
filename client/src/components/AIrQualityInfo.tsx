@@ -1,6 +1,5 @@
 import { WeatherData } from "../types/weather";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Progress } from "./ui/progress";
 import { Wind } from "lucide-react";
 
 interface AirQualityInfoProps {
@@ -45,7 +44,12 @@ const AirQualityInfo = ({ weather }: AirQualityInfoProps) => {
               <span className="text-sm font-medium">Quality Index</span>
               <span className="text-sm font-bold">{airQualityInfo.text}</span>
             </div>
-            <Progress value={airQuality * 20} className="h-2" indicatorClassName={airQualityInfo.color} />
+            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+              <div 
+                className={`${airQualityInfo.color} h-2.5 rounded-full`} 
+                style={{ width: `${airQuality * 20}%` }}
+              ></div>
+            </div>
             <p className="text-sm text-gray-500 dark:text-gray-400">
               {airQualityInfo.text === "Excellent" || airQualityInfo.text === "Good" ?
                 "Air quality is satisfactory and poses little or no risk." :
@@ -65,7 +69,12 @@ const AirQualityInfo = ({ weather }: AirQualityInfoProps) => {
               <span className="text-sm font-medium">Current Index: {uvIndex}</span>
               <span className="text-sm font-bold">{uvIndexInfo.text}</span>
             </div>
-            <Progress value={uvIndex * 10} className="h-2" indicatorClassName={uvIndexInfo.color} />
+            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+              <div 
+                className={`${uvIndexInfo.color} h-2.5 rounded-full`} 
+                style={{ width: `${uvIndex * 10}%` }}
+              ></div>
+            </div>
             <p className="text-sm text-gray-500 dark:text-gray-400">
               {uvIndexInfo.text === "Low" ?
                 "No protection needed. You can safely stay outside." :
