@@ -379,25 +379,6 @@ export default function Home() {
             
             {/* Right column */}
             <div>
-              {/* Map */}
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden mb-6">
-                <div className="h-64 bg-gray-200">
-                  <iframe 
-                    width="100%" 
-                    height="100%" 
-                    frameBorder="0" 
-                    scrolling="no" 
-                    marginHeight={0} 
-                    marginWidth={0} 
-                    src={`https://www.openstreetmap.org/export/embed.html?bbox=${weather.city}&amp;layer=mapnik`} 
-                    style={{ border: '1px solid #ddd' }}
-                  ></iframe>
-                  <div className="text-xs text-right p-1">
-                    © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>
-                  </div>
-                </div>
-              </div>
-              
               {/* 8-day forecast */}
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4">
                 <h3 className="font-medium mb-3">8-day forecast</h3>
