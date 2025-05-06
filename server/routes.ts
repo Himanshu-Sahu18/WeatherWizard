@@ -23,7 +23,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       console.log(`Searching for city: ${city}`);
       
-      
       const weatherData = await fetchWeatherData(city);
       
       // Save search to history
@@ -34,6 +33,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           country: weatherData.country,
           temperature: Math.round(weatherData.temp),
           condition: weatherData.condition,
+          icon: weatherData.icon,
           timestamp: new Date(),
           favorite: false,
         });
@@ -78,6 +78,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           country: weatherData.country,
           temperature: Math.round(weatherData.temp),
           condition: weatherData.condition,
+          icon: weatherData.icon,
           timestamp: new Date(),
           favorite: false,
         });
