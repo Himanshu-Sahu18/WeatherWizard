@@ -90,6 +90,7 @@ export const searchHistory = pgTable("search_history", {
   country: varchar("country", { length: 100 }).notNull(),
   temperature: integer("temperature").notNull(),
   condition: varchar("condition", { length: 50 }).notNull(),
+  icon: varchar("icon", { length: 50 }),
   timestamp: timestamp("timestamp").defaultNow().notNull(),
   favorite: boolean("favorite").default(false).notNull(),
 });
