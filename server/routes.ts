@@ -21,6 +21,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "City name is required" });
       }
       
+      console.log(`Searching for city: ${city}`);
+      
+      
       const weatherData = await fetchWeatherData(city);
       
       // Save search to history
