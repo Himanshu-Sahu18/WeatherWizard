@@ -73,4 +73,4 @@ export type WeatherResponse = z.infer<typeof weatherResponseSchema>;
 export type ForecastItem = z.infer<typeof forecastItemSchema>;
 export type HourlyForecastItem = z.infer<typeof hourlyForecastItemSchema>;
 export type TemperatureHistoryItem = z.infer<typeof temperatureHistoryItemSchema>;
-export type WeatherStats = z.infer<typeof weatherStatsSchema>;}
+export type WeatherStats = z.infer<typeof weatherStatsSchema>;
