@@ -1,6 +1,17 @@
 import axios from "axios";
 import { WeatherResponse, ForecastItem, HourlyForecastItem, TemperatureHistoryItem, WeatherStats } from "@shared/schema";
 
+// Common city suggestions for autocomplete
+const popularCities = [
+  "London", "New York", "Tokyo", "Paris", "Berlin", "Sydney", "Rome",
+  "Madrid", "Moscow", "Beijing", "Dubai", "Toronto", "Singapore", "Mumbai",
+  "Bangkok", "Istanbul", "Cairo", "Rio de Janeiro", "Cape Town", "Amsterdam",
+  "Vienna", "Hong Kong", "Los Angeles", "Chicago", "San Francisco", "Seattle", 
+  "Boston", "Miami", "Vancouver", "Montreal", "Mexico City", "Buenos Aires",
+  "Seoul", "Stockholm", "Copenhagen", "Oslo", "Helsinki", "Athens", "Prague", 
+  "Warsaw", "Budapest", "Dublin", "Lisbon", "Brussels", "Zurich", "Geneva"
+];
+
 if (!process.env.OPENWEATHERMAP_API_KEY) {
   console.warn("OPENWEATHERMAP_API_KEY environment variable not set. Weather API will not work properly.");
 }
@@ -256,4 +267,22 @@ export const fetchWeatherByCoordinates = async (
     console.error("Error in fetchWeatherByCoordinates:", error);
     throw error;
   }
+};
+
+// Get city suggestions based on a search query
+export const getCitySuggestions = (query: string): string[] => {
+  if (!query || query.trim().length < 2) {
+    // Return a selection of popular cities if query is too short
+    return popularCities.slice(0, 5);
+  }
+  
+  const normalizedQuery = query.toLowerCase().trim();
+  
+  // Filter cities that match the query
+  const matches = popularCities.filter(city => 
+    city.toLowerCase().includes(normalizedQuery)
+  );
+  
+  // Return top 5 matches, or fewer if there aren't 5
+  return matches.slice(0, 5);
 };

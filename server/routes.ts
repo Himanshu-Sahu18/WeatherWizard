@@ -1,6 +1,6 @@
 import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
-import { fetchWeatherData, fetchWeatherByCoordinates } from "./api/weather";
+import { fetchWeatherData, fetchWeatherByCoordinates, getCitySuggestions } from "./api/weather";
 import { storage } from "./storage";
 import { insertSearchHistorySchema, insertUserSchema } from "@shared/schema";
 import { z } from "zod";
@@ -131,6 +131,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error toggling favorite status:", error);
       return res.status(500).json({ message: "Failed to update favorite status" });
+    }
+  });
+
+  // Get city name suggestions for autocomplete
+  app.get("/api/cities/suggestions", (req, res) => {
+    try {
+      const { query } = req.query;
+      
+      if (!query || typeof query !== "string") {
+        return res.json(["London", "New York", "Tokyo", "Paris", "Berlin"]);
+      }
+      
+      const suggestions = getCitySuggestions(query);
+      return res.json(suggestions);
+    } catch (error) {
+      console.error("Error getting city suggestions:", error);
+      return res.status(500).json({ message: "Failed to get city suggestions" });
     }
   });
 

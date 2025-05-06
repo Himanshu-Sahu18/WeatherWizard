@@ -21,3 +21,18 @@ export const searchWeatherByCoordinates = async (lat: number, lon: number): Prom
   
   return response.json();
 };
+
+export const getCitySuggestions = async (query: string): Promise<string[]> => {
+  try {
+    const response = await fetch(`/api/cities/suggestions?query=${encodeURIComponent(query)}`);
+    
+    if (!response.ok) {
+      return [];
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching city suggestions:", error);
+    return [];
+  }
+};
