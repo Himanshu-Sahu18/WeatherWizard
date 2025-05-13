@@ -45,4 +45,6 @@ npm run start
 
 - `client/` - React frontend
 - `server/` - Express backend
-- `shared/` - Shared types and utilities 
+- `shared/` - Shared types and utilities
+
+## Output
