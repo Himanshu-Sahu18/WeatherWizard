@@ -48,3 +48,6 @@ npm run start
 - `shared/` - Shared types and utilities
 
 ## Output
+https://github.com/user-attachments/assets/f323eae7-2692-4369-a193-5b8512128e4e
+
+![Image](https://github.com/user-attachments/assets/fa91cb08-dc9e-4c84-8266-edbbbfb570cf)
